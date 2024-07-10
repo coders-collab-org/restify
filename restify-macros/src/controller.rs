@@ -4,13 +4,15 @@ use syn::{
   parse::{Parse, ParseStream},
   parse2,
   punctuated::Punctuated,
-  Attribute, Error, ImplItem, ItemImpl, LitStr, MetaNameValue, Token, Type,
+  Attribute, Error, Expr, ImplItem, ItemImpl, LitStr, MetaNameValue, Token, Type,
 };
 
 use crate::route::Route;
 
 struct Controller {
-  args: Args,
+  path: LitStr,
+
+  wrappers: Vec<Expr>,
   attrs: Vec<Attribute>,
   type_: Type,
   routes: Vec<Route>,
@@ -35,11 +37,25 @@ impl Controller {
       .flatten()
       .collect();
 
+    let mut wrappers = vec![];
+
+    for nv in args.options {
+      if nv.path.is_ident("wrap") {
+        wrappers.push(nv.value);
+      } else {
+        return Err(syn::Error::new_spanned(
+          nv.path,
+          "Unknown attribute key is specified; allowed: wrap",
+        ));
+      }
+    }
+
     Ok(Self {
-      args,
       attrs,
       routes,
+      path: args.path,
       items,
+      wrappers,
       type_: *self_ty,
     })
   }
@@ -47,20 +63,19 @@ impl Controller {
 
 struct Args {
   pub path: LitStr,
-  #[allow(dead_code)]
   pub options: Punctuated<MetaNameValue, Token![,]>,
 }
 
 impl ToTokens for Controller {
   fn to_tokens(&self, tokens: &mut TokenStream) {
     let Controller {
-      args,
       attrs: _attrs,
       type_,
       routes,
       items,
+      wrappers,
+      path,
     } = self;
-    let path = &args.path;
 
     let controller = if cfg!(feature = "axum") {
       quote! {
@@ -75,7 +90,9 @@ impl ToTokens for Controller {
           fn configure(&self, _ctx: &mut Self::Context) -> Self::Return {
             use ::axum::{routing, Router};
 
-            Router::new()#(.#routes)*
+            Router::new()
+            #(.#routes)*
+            #(.layer(#wrappers))*
           }
         }
       }

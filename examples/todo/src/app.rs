@@ -1,4 +1,5 @@
 use restify::prelude::*;
+use tower_http::trace::TraceLayer;
 
 use crate::todo::TodoModule;
 
@@ -8,7 +9,7 @@ pub struct AppModule;
 
 pub struct AppController;
 
-#[controller("/")]
+#[controller("/", wrap = TraceLayer::new_for_http())]
 impl AppController {
   #[get]
   async fn up() -> &'static str {
