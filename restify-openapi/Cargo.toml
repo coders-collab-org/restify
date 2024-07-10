@@ -6,6 +6,7 @@ authors.workspace = true
 homepage = "https://github.com/coders-collab-org/restify"
 repository = "https://github.com/coders-collab-org/restify"
 license = "MIT"
+description = "STILL WIP"
 
 [dependencies]
 schemars = { package = "apistos-schemars", version = "0.8", features = [

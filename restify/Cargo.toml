@@ -6,6 +6,7 @@ authors.workspace = true
 homepage = "https://github.com/coders-collab-org/restify"
 repository = "https://github.com/coders-collab-org/restify"
 license = "MIT"
+description = "STILL WIP"
 
 [dependencies]
 restify-macros = { path = "../restify-macros", version = "0.0.1", default-features = false, optional = true }

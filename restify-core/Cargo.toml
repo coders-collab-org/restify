@@ -3,6 +3,8 @@ name = "restify-core"
 version = "0.0.1"
 edition = "2021"
 authors.workspace = true
+description = "STILL WIP"
+
 homepage = "https://github.com/coders-collab-org/restify"
 repository = "https://github.com/coders-collab-org/restify"
 license = "MIT"
