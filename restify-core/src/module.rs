@@ -24,6 +24,7 @@ pub trait Module {
   }
 }
 
+#[allow(dead_code)]
 pub(crate) fn resolve_module<Ctx, ConCtx, ConRet>(
   module: &dyn Module<Context = Ctx, ControllerContext = ConCtx, ControllerReturn = ConRet>,
   context: &mut Ctx,
@@ -34,7 +35,7 @@ pub(crate) fn resolve_module<Ctx, ConCtx, ConRet>(
   controllers
 }
 
-// Recursive function to configure modules and controllers
+#[allow(dead_code)]
 fn configure_module_recursive<Ctx, ConCtx, ConRet>(
   module: &dyn Module<Context = Ctx, ControllerContext = ConCtx, ControllerReturn = ConRet>,
   context: &mut Ctx,
