@@ -3,6 +3,8 @@ name = "restify-core"
 version = "0.1.0"
 edition = "2021"
 authors.workspace = true
+homepage = "https://github.com/coders-collab-org/restify"
+repository = "https://github.com/coders-collab-org/restify"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
