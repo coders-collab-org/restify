@@ -665,7 +665,7 @@ checksum = "7a66a03ae7c801facd77a29370b4faec201768915ac14a721ba36f20bc9c209b"
 
 [[package]]
 name = "restify"
-version = "0.0.0"
+version = "0.0.1"
 dependencies = [
  "restify-core",
  "restify-macros",
@@ -674,7 +674,7 @@ dependencies = [
 
 [[package]]
 name = "restify-core"
-version = "0.1.0"
+version = "0.0.1"
 dependencies = [
  "axum",
  "tokio",
@@ -682,7 +682,7 @@ dependencies = [
 
 [[package]]
 name = "restify-macros"
-version = "0.0.0"
+version = "0.0.1"
 dependencies = [
  "actix-router",
  "cfg-if",
@@ -696,7 +696,7 @@ dependencies = [
 
 [[package]]
 name = "restify-openapi"
-version = "0.0.0"
+version = "0.0.1"
 dependencies = [
  "apistos-schemars",
  "assert-json-diff",

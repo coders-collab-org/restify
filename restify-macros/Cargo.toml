@@ -1,9 +1,10 @@
 [package]
 name = "restify-macros"
-version = "0.0.0"
+version = "0.0.1"
 edition = "2021"
 homepage = "https://github.com/coders-collab-org/restify"
 repository = "https://github.com/coders-collab-org/restify"
+license = "MIT"
 
 [lib]
 proc-macro = true

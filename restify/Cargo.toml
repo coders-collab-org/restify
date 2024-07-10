@@ -1,15 +1,16 @@
 [package]
 name = "restify"
 edition = "2021"
-version = "0.0.0"
+version = "0.0.1"
 authors.workspace = true
 homepage = "https://github.com/coders-collab-org/restify"
 repository = "https://github.com/coders-collab-org/restify"
+license = "MIT"
 
 [dependencies]
-restify-macros = { path = "../restify-macros", default-features = false, optional = true }
-restify-core = { path = "../restify-core", default-features = false }
-restify-openapi = { path = "../restify-openapi", default-features = false, optional = true }
+restify-macros = { path = "../restify-macros", version = "0.0.1", default-features = false, optional = true }
+restify-core = { path = "../restify-core", version = "0.0.1", default-features = false }
+restify-openapi = { path = "../restify-openapi", version = "0.0.1", default-features = false, optional = true }
 
 [features]
 default = ["macros"]

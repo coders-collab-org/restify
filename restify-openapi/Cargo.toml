@@ -1,10 +1,11 @@
 [package]
 name = "restify-openapi"
-version = "0.0.0"
+version = "0.0.1"
 edition = "2021"
 authors.workspace = true
 homepage = "https://github.com/coders-collab-org/restify"
 repository = "https://github.com/coders-collab-org/restify"
+license = "MIT"
 
 [dependencies]
 schemars = { package = "apistos-schemars", version = "0.8", features = [
