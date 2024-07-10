@@ -1,0 +1,7 @@
+[workspace.package]
+authors = ["Youssef Khalil <usf.kh.kh@gmail.com>"]
+
+[workspace]
+members = ["restify", "restify-*", "examples/*"]
+default-members = ["restify", "restify-*"]
+resolver = "2"

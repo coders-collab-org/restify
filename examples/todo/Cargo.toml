@@ -1,0 +1,10 @@
+[package]
+name = "todo"
+version = "0.1.0"
+edition = "2021"
+authors.workspace = true
+
+[dependencies]
+axum = "0.7"
+restify = { path = "../../restify", features = ["axum"] }
+tokio = { version = "1.0", features = ["full"] }
