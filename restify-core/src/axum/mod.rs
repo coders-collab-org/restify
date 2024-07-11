@@ -16,7 +16,9 @@ where
     let mut router = Router::new();
 
     for con in controllers {
-      router = router.nest(con.path(), con.configure(&mut ()));
+      let details = con(&mut ());
+
+      router = router.nest(&details.path, details.return_);
     }
 
     router

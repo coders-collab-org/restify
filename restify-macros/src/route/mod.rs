@@ -24,6 +24,15 @@ impl Route {
 
     let name = item.sig.ident.clone();
 
+    if let Some(input) = item.sig.inputs.first() {
+      if matches!(input, FnArg::Receiver(rec) if rec.reference.is_some()) {
+        return Err(Error::new(
+          input.span(),
+          "Method receiver cannot be reference",
+        ));
+      }
+    }
+
     let mut method_args = None;
     let mut attrs = vec![];
     let mut descriptions: Vec<Attribute> = vec![];
@@ -37,15 +46,6 @@ impl Route {
             attr.span(),
             r#"Unsupported to use more than one method"#,
           ));
-        }
-
-        if item
-          .sig
-          .inputs
-          .iter()
-          .any(|a| matches!(a, FnArg::Receiver(_)))
-        {
-          return Err(syn::Error::new(attr.span(), r#"Unsupported self method"#));
         }
 
         method_args = Some(MethodArgs::new(attr.meta, m)?);

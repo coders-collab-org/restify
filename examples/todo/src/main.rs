@@ -1,4 +1,5 @@
-use app::AppModule;
+use app::{AppModule, AppState};
+
 use restify::axum::IntoRouter;
 
 mod app;
@@ -12,7 +13,12 @@ async fn main() {
     .await
     .unwrap();
 
-  axum::serve(listener, AppModule.into_router(&mut ()))
-    .await
-    .unwrap();
+  axum::serve(
+    listener,
+    AppModule
+      .into_router(&mut ())
+      .with_state(AppState::default()),
+  )
+  .await
+  .unwrap();
 }

@@ -1,4 +1,4 @@
-use crate::{BoxedController, BoxedModule};
+use crate::{BoxedControllerFn, BoxedModule};
 
 pub trait Module {
   type Context;
@@ -17,7 +17,7 @@ pub trait Module {
   fn controllers(
     &self,
     ctx: &mut Self::Context,
-  ) -> Vec<BoxedController<Self::ControllerContext, Self::ControllerReturn>> {
+  ) -> Vec<BoxedControllerFn<Self::ControllerContext, Self::ControllerReturn>> {
     let _ = ctx;
 
     vec![]
@@ -28,7 +28,7 @@ pub trait Module {
 pub(crate) fn resolve_module<Ctx, ConCtx, ConRet>(
   module: &dyn Module<Context = Ctx, ControllerContext = ConCtx, ControllerReturn = ConRet>,
   context: &mut Ctx,
-) -> Vec<BoxedController<ConCtx, ConRet>> {
+) -> Vec<BoxedControllerFn<ConCtx, ConRet>> {
   let mut controllers = vec![];
   configure_module_recursive(module, context, &mut controllers);
 
@@ -39,7 +39,7 @@ pub(crate) fn resolve_module<Ctx, ConCtx, ConRet>(
 fn configure_module_recursive<Ctx, ConCtx, ConRet>(
   module: &dyn Module<Context = Ctx, ControllerContext = ConCtx, ControllerReturn = ConRet>,
   context: &mut Ctx,
-  controllers: &mut Vec<BoxedController<ConCtx, ConRet>>,
+  controllers: &mut Vec<BoxedControllerFn<ConCtx, ConRet>>,
 ) {
   controllers.extend(module.controllers(context));
 

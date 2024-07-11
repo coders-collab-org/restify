@@ -4,14 +4,14 @@ use syn::{
   parse::{Parse, ParseStream},
   parse2,
   punctuated::Punctuated,
-  Attribute, Error, Expr, ImplItem, ItemImpl, LitStr, MetaNameValue, Token, Type,
+  Attribute, Error, Expr, ImplItem, ItemImpl, LitStr, Meta, Token, Type,
 };
 
 use crate::route::Route;
 
 struct Controller {
   path: LitStr,
-
+  state: Option<Type>,
   wrappers: Vec<Expr>,
   attrs: Vec<Attribute>,
   type_: Type,
@@ -38,13 +38,16 @@ impl Controller {
       .collect();
 
     let mut wrappers = vec![];
+    let mut state = None::<Type>;
 
     for nv in args.options {
-      if nv.path.is_ident("wrap") {
-        wrappers.push(nv.value);
+      if nv.path().is_ident("wrap") {
+        wrappers.push(nv.require_name_value()?.value.clone());
+      } else if nv.path().is_ident("state") {
+        state = Some(parse2(nv.require_list()?.tokens.clone())?);
       } else {
         return Err(syn::Error::new_spanned(
-          nv.path,
+          nv.path(),
           "Unknown attribute key is specified; allowed: wrap",
         ));
       }
@@ -55,6 +58,7 @@ impl Controller {
       routes,
       path: args.path,
       items,
+      state,
       wrappers,
       type_: *self_ty,
     })
@@ -63,7 +67,7 @@ impl Controller {
 
 struct Args {
   pub path: LitStr,
-  pub options: Punctuated<MetaNameValue, Token![,]>,
+  pub options: Punctuated<Meta, Token![,]>,
 }
 
 impl ToTokens for Controller {
@@ -74,6 +78,7 @@ impl ToTokens for Controller {
       routes,
       items,
       wrappers,
+      state,
       path,
     } = self;
 
@@ -81,18 +86,18 @@ impl ToTokens for Controller {
       quote! {
         impl ::restify::Controller for #type_ {
           type Context = ();
-          type Return = ::axum::Router;
+          type Return = ::axum::Router<#state>;
 
-          fn path(&self) -> &str {
-            #path
-          }
 
-          fn configure(&self, _ctx: &mut Self::Context) -> Self::Return {
+          fn configure(_ctx: &mut Self::Context) -> ::restify::ControllerDetails<Self::Return> {
             use ::axum::{routing, Router};
+            ::restify::ControllerDetails {
+              path: #path.into(),
+              return_: Router::new()
+              #(.#routes)*
+              #(.layer(#wrappers))*,
+            }
 
-            Router::new()
-            #(.#routes)*
-            #(.layer(#wrappers))*
           }
         }
       }
@@ -144,7 +149,7 @@ impl Parse for Args {
     }
 
     // zero or more options: name = "foo"
-    let options = input.parse_terminated(syn::MetaNameValue::parse, Token![,])?;
+    let options = input.parse_terminated(Meta::parse, Token![,])?;
 
     Ok(Self { path, options })
   }

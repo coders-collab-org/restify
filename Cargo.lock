@@ -110,6 +110,7 @@ checksum = "3a6c9af12842a67734c9a2e355436e5d03b22383ed60cf13cd0c18fbfe3dcbcf"
 dependencies = [
  "async-trait",
  "axum-core",
+ "axum-macros",
  "bytes",
  "futures-util",
  "http 1.1.0",
@@ -155,6 +156,18 @@ dependencies = [
  "tower-layer",
  "tower-service",
  "tracing",
+]
+
+[[package]]
+name = "axum-macros"
+version = "0.4.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "00c055ee2d014ae5981ce1016374e8213682aa14d9bf40e48ab48b5f3ef20eaa"
+dependencies = [
+ "heck",
+ "proc-macro2",
+ "quote",
+ "syn 2.0.68",
 ]
 
 [[package]]
@@ -272,6 +285,17 @@ dependencies = [
  "futures-task",
  "pin-project-lite",
  "pin-utils",
+]
+
+[[package]]
+name = "getrandom"
+version = "0.2.15"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "c4567c8db10ae91089c99af84c68c38da3ec2f087c3f82960bcdbf3656b6f4d7"
+dependencies = [
+ "cfg-if",
+ "libc",
+ "wasi",
 ]
 
 [[package]]
@@ -687,7 +711,7 @@ checksum = "7a66a03ae7c801facd77a29370b4faec201768915ac14a721ba36f20bc9c209b"
 
 [[package]]
 name = "restify"
-version = "0.0.1"
+version = "0.0.2"
 dependencies = [
  "restify-core",
  "restify-macros",
@@ -696,7 +720,7 @@ dependencies = [
 
 [[package]]
 name = "restify-core"
-version = "0.0.1"
+version = "0.0.2"
 dependencies = [
  "axum",
  "tokio",
@@ -704,7 +728,7 @@ dependencies = [
 
 [[package]]
 name = "restify-macros"
-version = "0.0.1"
+version = "0.0.2"
 dependencies = [
  "actix-router",
  "cfg-if",
@@ -941,10 +965,13 @@ name = "todo"
 version = "0.1.0"
 dependencies = [
  "axum",
+ "axum-macros",
  "restify",
+ "serde",
  "tokio",
  "tower-http",
  "tracing-subscriber",
+ "uuid",
 ]
 
 [[package]]
@@ -1105,6 +1132,9 @@ name = "uuid"
 version = "1.9.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "5de17fd2f7da591098415cff336e12965a28061ddace43b59cb3c430179c9439"
+dependencies = [
+ "getrandom",
+]
 
 [[package]]
 name = "valuable"
