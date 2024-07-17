@@ -2,12 +2,12 @@ use proc_macro2::{Span, TokenStream};
 use quote::{quote, ToTokens};
 use syn::{
   parse::{Parse, ParseStream},
-  parse2,
+  parse2, parse_str,
   punctuated::Punctuated,
   Attribute, Error, Expr, ImplItem, ItemImpl, LitStr, Meta, Token, Type,
 };
 
-use crate::route::Route;
+use crate::{config::CONFIG, route::Route};
 
 struct Controller {
   path: LitStr,
@@ -50,6 +50,12 @@ impl Controller {
           nv.path(),
           "Unknown attribute key is specified; allowed: wrap",
         ));
+      }
+    }
+
+    if let Some(path) = &CONFIG.state {
+      if state.is_none() {
+        state = Some(parse_str(path)?)
       }
     }
 

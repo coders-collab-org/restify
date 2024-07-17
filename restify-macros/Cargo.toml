@@ -1,6 +1,6 @@
 [package]
 name = "restify-macros"
-version = "0.0.2"
+version = "0.0.3"
 edition = "2021"
 homepage = "https://github.com/coders-collab-org/restify"
 repository = "https://github.com/coders-collab-org/restify"
@@ -13,10 +13,10 @@ proc-macro = true
 
 [dependencies]
 syn = { version = "2", default-features = false, features = [
-  "parsing",
-  "proc-macro",
-  "derive",
-  "printing",
+    "parsing",
+    "proc-macro",
+    "derive",
+    "printing",
 ] }
 proc-macro2 = { version = "1", default-features = false }
 quote = { version = "1", default-features = false }
@@ -25,6 +25,9 @@ unicode-ident = { version = "1" }
 bae = { version = "0.2", package = "sea-bae", default-features = false }
 actix-router = "0.5"
 cfg-if = "1"
+toml = "0.8"
+lazy_static = "1"
+serde = { version = "1", features = ["derive"] }
 
 [features]
 axum = []

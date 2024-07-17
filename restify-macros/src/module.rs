@@ -1,7 +1,9 @@
 use proc_macro::TokenStream;
 use proc_macro2::Span;
 use quote::quote;
-use syn::{parenthesized, parse::Parse, DeriveInput, Expr, Token, Type};
+use syn::{parenthesized, parse::Parse, parse_str, DeriveInput, Expr, Token, Type};
+
+use crate::config::CONFIG;
 
 pub fn expand(item: DeriveInput) -> Result<TokenStream, syn::Error> {
   let ident = &item.ident;
@@ -41,6 +43,12 @@ pub fn expand(item: DeriveInput) -> Result<TokenStream, syn::Error> {
 
       Ok(())
     })?;
+  }
+
+  if let Some(path) = &CONFIG.state {
+    if state.is_none() {
+      state = Some(parse_str(path)?)
+    }
   }
 
   let controller_context = if cfg!(feature = "axum") {

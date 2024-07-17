@@ -7,12 +7,12 @@ use tower_http::trace::TraceLayer;
 use crate::todo::{entities::TodoEntity, TodoModule};
 
 #[derive(Module)]
-#[module(imports(TodoModule), controllers(AppController), state(AppState))]
+#[module(imports(TodoModule), controllers(AppController))]
 pub struct AppModule;
 
 pub struct AppController;
 
-#[controller("/", state(AppState), wrap = TraceLayer::new_for_http())]
+#[controller("/", wrap = TraceLayer::new_for_http())]
 impl AppController {
   #[get]
   async fn up() -> &'static str {

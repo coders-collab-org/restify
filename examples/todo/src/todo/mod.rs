@@ -7,8 +7,6 @@ pub use controller::TodoController;
 
 use restify::Module;
 
-use crate::app::AppState;
-
 #[derive(Module)]
-#[module(controllers(TodoController), state(AppState))]
+#[module(controllers(TodoController))]
 pub struct TodoModule;

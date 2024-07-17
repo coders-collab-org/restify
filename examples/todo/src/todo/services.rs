@@ -1,6 +1,6 @@
 use std::collections::HashMap;
 
-use axum_macros::FromRequestParts;
+use restify::Injectable;
 use uuid::Uuid;
 
 use crate::app::AppState;
@@ -12,9 +12,9 @@ use super::{
 
 use axum::{extract::State, http::StatusCode, response::Response};
 
-#[derive(FromRequestParts, Clone)]
+#[derive(Injectable)]
 pub struct TodoService {
-  #[from_request(via(State))]
+  #[injectable(via(State))]
   state: AppState,
 }
 

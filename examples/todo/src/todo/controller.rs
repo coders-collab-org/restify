@@ -1,11 +1,8 @@
 use std::collections::HashMap;
 
 use axum::{extract::Path, response::Response, Json};
-use axum_macros::FromRequestParts;
 use restify::prelude::*;
 use tower_http::trace::TraceLayer;
-
-use crate::app::AppState;
 
 use super::{
   dto::{CreateTodoDto, UpdateTodoDto},
@@ -13,13 +10,12 @@ use super::{
   services::TodoService,
 };
 
-#[derive(FromRequestParts)]
-#[from_request(state(AppState))]
+#[derive(Injectable)]
 pub struct TodoController {
   service: TodoService,
 }
 
-#[controller("/todo", state(AppState), wrap = TraceLayer::new_for_http())]
+#[controller("/todo", wrap = TraceLayer::new_for_http())]
 impl TodoController {
   #[get]
   async fn get_all(self) -> Json<HashMap<String, TodoEntity>> {

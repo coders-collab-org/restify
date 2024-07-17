@@ -27,7 +27,7 @@ Add the following to your `Cargo.toml` file, choosing the feature for your desir
 
 ```toml
 [dependencies]
-restify = { version = "0.0.2", features = ["axum"] }
+restify = { version = "0.0.3", features = ["axum"] }
 
 # Dependencies for your chosen web framework (example for Axum)
 axum = "0.6"
@@ -74,11 +74,11 @@ pub struct UpdateTodoDto {
 **2. Create your service:**
 
 ```rust
-// /todo/service.rs
+// src/todo/service.rs
 
 use std::collections::HashMap;
 
-use axum_macros::FromRequestParts;
+use restify::prelude::*;
 use uuid::Uuid;
 
 use crate::app::AppState;
@@ -90,7 +90,7 @@ use super::{
 
 use axum::{extract::State, http::StatusCode, response::Response};
 
-#[derive(FromRequestParts, Clone)]
+#[derive(Injectable)]
 pub struct TodoService {
   #[from_request(via(State))]
   state: AppState,
@@ -161,27 +161,24 @@ impl TodoService {
 **3. Create your controller:**
 
 ```rust
-// /todo/controller.rs
+// src/todo/controller.rs
 
 use axum::{extract::Path, response::Response, Json};
-use axum_macros::FromRequestParts;
 use restify::prelude::*;
 use tower_http::trace::TraceLayer;
 
-use crate::app::AppState;
 use super::{
   dto::{CreateTodoDto, UpdateTodoDto},
   entities::TodoEntity,
   services::TodoService,
 };
 
-#[derive(FromRequestParts)]
-#[from_request(state(AppState))]
+#[derive(Injectable)]
 pub struct TodoController {
   service: TodoService,
 }
 
-#[controller("/todo", state(AppState), wrap = TraceLayer::new_for_http())]
+#[controller("/todo", wrap = TraceLayer::new_for_http())]
 impl TodoController {
   #[get]
   async fn get_all(self) -> Json<HashMap<String, TodoEntity>> {
@@ -194,18 +191,16 @@ impl TodoController {
 **4. Define your modules:**
 
 ```rust
-/// /todo/mod.rs
+/// src/todo/mod.rs
 use restify::Module;
 
-use crate::app::AppState;
-
 #[derive(Module)]
-#[module(controllers(TodoController), state(AppState))]
+#[module(controllers(TodoController))]
 pub struct TodoModule;
 ```
 
 ```rust
-// /app.rs
+// src/app.rs
 
 use std::{collections::HashMap, ops::Deref, sync::Arc};
 
@@ -216,12 +211,12 @@ use tower_http::trace::TraceLayer;
 use crate::todo::{entities::TodoEntity, TodoModule};
 
 #[derive(Module)]
-#[module(imports(TodoModule), controllers(AppController), state(AppState))]
+#[module(imports(TodoModule), controllers(AppController))]
 pub struct AppModule;
 
 pub struct AppController;
 
-#[controller("/", state(AppState), wrap = TraceLayer::new_for_http())]
+#[controller("/", wrap = TraceLayer::new_for_http())]
 impl AppController {
   #[get]
   async fn up() -> &'static str {
@@ -244,6 +239,13 @@ impl Deref for AppState {
     &self.0
   }
 }
+```
+
+**6. If you use Axum and have state, you can create a restify.toml file to define the state path, so you don't have to add it in every `Module`, `Controller`, or `Injectable` like `#[module(state(AppState))]`**
+```toml
+# restify.toml
+
+state = "crate::app::AppState"
 ```
 
 **5. Create your application (example for Axum):**
