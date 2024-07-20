@@ -720,7 +720,7 @@ dependencies = [
 
 [[package]]
 name = "restify-core"
-version = "0.0.2"
+version = "0.0.3"
 dependencies = [
  "axum",
  "tokio",
@@ -728,7 +728,7 @@ dependencies = [
 
 [[package]]
 name = "restify-macros"
-version = "0.0.3"
+version = "0.0.4"
 dependencies = [
  "actix-router",
  "cfg-if",
