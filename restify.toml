@@ -1,2 +1,2 @@
 state = "crate::app::AppState"
-# module-context = ""
+# module-context = "i32"

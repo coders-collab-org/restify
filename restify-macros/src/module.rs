@@ -9,6 +9,7 @@ pub fn expand(item: DeriveInput) -> Result<TokenStream, syn::Error> {
   let ident = &item.ident;
 
   let mut imports: Vec<Expr> = vec![];
+  let mut middlewares: Vec<Expr> = vec![];
   let mut controllers: Vec<Expr> = vec![];
   let mut state = None::<Type>;
   let mut context = None::<Type>;
@@ -26,6 +27,14 @@ pub fn expand(item: DeriveInput) -> Result<TokenStream, syn::Error> {
 
         let i = content.parse_terminated(Expr::parse, Token![,])?;
         imports.extend(i);
+      }
+
+      if meta.path.is_ident("middlewares") {
+        let content;
+        parenthesized!(content in meta.input);
+
+        let i = content.parse_terminated(Expr::parse, Token![,])?;
+        middlewares.extend(i);
       }
 
       if meta.path.is_ident("controllers") {
@@ -89,6 +98,8 @@ pub fn expand(item: DeriveInput) -> Result<TokenStream, syn::Error> {
 
 
       fn details(&self, _ctx: &mut Self::Context) -> ::restify::ModuleDetails<Self::Context, Self::ControllerContext, Self::ControllerReturn> {
+        #(#middlewares(self, _ctx);),*
+
         ::restify::ModuleDetails {
           imports: vec![#(Box::new(#imports)),*],
           controllers: vec![#(Box::new(<#controllers as ::restify::Controller>::configure)),*]
