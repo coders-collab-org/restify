@@ -11,6 +11,7 @@ pub fn expand(item: DeriveInput) -> Result<TokenStream, syn::Error> {
   let mut imports: Vec<Expr> = vec![];
   let mut controllers: Vec<Expr> = vec![];
   let mut state = None::<Type>;
+  let mut context = None::<Type>;
 
   for attr in item.attrs.iter() {
     if !attr.path().is_ident("module") {
@@ -41,6 +42,12 @@ pub fn expand(item: DeriveInput) -> Result<TokenStream, syn::Error> {
         state = Some(content.parse()?);
       }
 
+      if meta.path.is_ident("context") {
+        let content;
+        parenthesized!(content in meta.input);
+        state = Some(content.parse()?);
+      }
+
       Ok(())
     })?;
   }
@@ -51,11 +58,19 @@ pub fn expand(item: DeriveInput) -> Result<TokenStream, syn::Error> {
     }
   }
 
+  if let Some(path) = &CONFIG.module_context {
+    if context.is_none() {
+      context = Some(parse_str(path)?)
+    }
+  }
+
   let controller_context = if cfg!(feature = "axum") {
     quote!(())
   } else {
     unreachable!()
   };
+
+  let module_context = context.map_or_else(|| quote!(()), |c| quote!(#c));
 
   let return_content = if cfg!(feature = "axum") {
     quote!(::axum::routing::Router<#state>)
@@ -68,20 +83,16 @@ pub fn expand(item: DeriveInput) -> Result<TokenStream, syn::Error> {
 
   let module = quote! {
     impl Module for #ident {
-      type Context = ();
+      type Context = #module_context;
       type ControllerContext = #controller_context;
       type ControllerReturn = #return_content;
 
 
-      fn imports(&self, _ctx: &mut Self::Context) -> Vec<::restify::BoxedModule<Self::Context, Self::ControllerContext, Self::ControllerReturn>> {
-        vec![#(Box::new(#imports)),*]
-      }
-
-      fn controllers(
-        &self,
-        _ctx: &mut Self::Context,
-      ) -> Vec<::restify::BoxedControllerFn<Self::ControllerContext, Self::ControllerReturn>> {
-        vec![#(Box::new(<#controllers as ::restify::Controller>::configure)),*]
+      fn details(&self, _ctx: &mut Self::Context) -> ::restify::ModuleDetails<Self::Context, Self::ControllerContext, Self::ControllerReturn> {
+        ::restify::ModuleDetails {
+          imports: vec![#(Box::new(#imports)),*],
+          controllers: vec![#(Box::new(<#controllers as ::restify::Controller>::configure)),*]
+        }
       }
     }
   };

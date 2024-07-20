@@ -11,6 +11,8 @@ lazy_static! {
 #[derive(Default, Debug, Deserialize)]
 pub struct Config {
   pub state: Option<String>,
+  #[serde(rename = "module-context")]
+  pub module_context: Option<String>,
 }
 
 impl Config {
@@ -26,7 +28,11 @@ impl Config {
         .expect("Failed to parse restify.toml");
 
     if let Some(path) = &config.state {
-      parse_str::<Type>(path).expect("Invalid state-type-path");
+      parse_str::<Type>(path).expect("`state` must be a type path in restify.toml");
+    }
+
+    if let Some(path) = &config.module_context {
+      parse_str::<Type>(path).expect("`module-context` must be a type path in restify.toml");
     }
 
     config

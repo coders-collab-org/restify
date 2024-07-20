@@ -3,7 +3,7 @@ mod module;
 
 pub use controller::Controller;
 pub use controller::ControllerDetails;
-pub use module::Module;
+pub use module::{Module, ModuleDetails};
 
 #[cfg(feature = "axum")]
 pub mod axum;

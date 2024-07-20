@@ -1,3 +1,5 @@
+#![allow(dead_code)]
+
 use proc_macro2::Span;
 use quote::{quote, ToTokens};
 use syn::{

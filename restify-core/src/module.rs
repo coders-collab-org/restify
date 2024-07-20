@@ -5,23 +5,15 @@ pub trait Module {
   type ControllerContext;
   type ControllerReturn;
 
-  fn imports(
+  fn details(
     &self,
     ctx: &mut Self::Context,
-  ) -> Vec<BoxedModule<Self::Context, Self::ControllerContext, Self::ControllerReturn>> {
-    let _ = ctx;
+  ) -> ModuleDetails<Self::Context, Self::ControllerContext, Self::ControllerReturn>;
+}
 
-    vec![]
-  }
-
-  fn controllers(
-    &self,
-    ctx: &mut Self::Context,
-  ) -> Vec<BoxedControllerFn<Self::ControllerContext, Self::ControllerReturn>> {
-    let _ = ctx;
-
-    vec![]
-  }
+pub struct ModuleDetails<Ctx, ConCtx, ConRet> {
+  pub imports: Vec<BoxedModule<Ctx, ConCtx, ConRet>>,
+  pub controllers: Vec<BoxedControllerFn<ConCtx, ConRet>>,
 }
 
 #[allow(dead_code)]
@@ -41,11 +33,10 @@ fn configure_module_recursive<Ctx, ConCtx, ConRet>(
   context: &mut Ctx,
   controllers: &mut Vec<BoxedControllerFn<ConCtx, ConRet>>,
 ) {
-  controllers.extend(module.controllers(context));
+  let details = module.details(context);
+  controllers.extend(details.controllers);
 
-  let imported_modules = module.imports(context);
-
-  for imported_module in imported_modules {
+  for imported_module in details.imports {
     configure_module_recursive(&*imported_module, context, controllers);
   }
 }
