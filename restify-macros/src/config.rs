@@ -1,4 +1,4 @@
-use std::{fs::read_to_string, path::Path};
+use std::{fs::read_to_string, path::PathBuf};
 
 use lazy_static::lazy_static;
 use serde::Deserialize;
@@ -17,7 +17,16 @@ pub struct Config {
 
 impl Config {
   pub fn new() -> Self {
-    let path = Path::new("restify.toml");
+    let path = match std::env::var("CARGO_MANIFEST_DIR") {
+      Ok(dir) if cfg!(feature = "cargo_manifest_dir") => {
+        let mut path = PathBuf::from(dir);
+
+        path.push("restify.toml");
+
+        path
+      }
+      _ => PathBuf::from("restify.toml"),
+    };
 
     if !path.exists() {
       return Config::default();

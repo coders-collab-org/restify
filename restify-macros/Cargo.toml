@@ -1,6 +1,6 @@
 [package]
 name = "restify-macros"
-version = "0.0.4"
+version = "0.0.5"
 edition = "2021"
 homepage = "https://github.com/coders-collab-org/restify"
 repository = "https://github.com/coders-collab-org/restify"
@@ -31,3 +31,4 @@ serde = { version = "1", features = ["derive"] }
 
 [features]
 axum = []
+cargo_manifest_dir = []

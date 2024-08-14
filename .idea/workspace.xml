@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="ALL" />
+  </component>
+  <component name="CargoProjects">
+    <cargoProject FILE="$PROJECT_DIR$/Cargo.toml" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="030470ee-8530-4f2c-a247-d60ac4c4b9a9" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/Cargo.lock" beforeDir="false" afterPath="$PROJECT_DIR$/Cargo.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Cargo.toml" beforeDir="false" afterPath="$PROJECT_DIR$/Cargo.toml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/todo/Cargo.toml" beforeDir="false" afterPath="$PROJECT_DIR$/examples/todo/Cargo.toml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/restify-core/Cargo.toml" beforeDir="false" afterPath="$PROJECT_DIR$/restify-core/Cargo.toml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/restify-core/src/axum/mod.rs" beforeDir="false" afterPath="$PROJECT_DIR$/restify-core/src/axum/mod.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/restify-macros/Cargo.toml" beforeDir="false" afterPath="$PROJECT_DIR$/restify-macros/Cargo.toml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/restify-openapi/Cargo.toml" beforeDir="false" afterPath="$PROJECT_DIR$/restify-openapi/Cargo.toml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/restify-openapi/src/api_component.rs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/restify-openapi/src/axum/routing/method_routing.rs" beforeDir="false" afterPath="$PROJECT_DIR$/restify-openapi/src/axum/routing/method_routing.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/restify-openapi/src/axum/routing/mod.rs" beforeDir="false" afterPath="$PROJECT_DIR$/restify-openapi/src/axum/routing/mod.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/restify-openapi/src/error_component.rs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/restify-openapi/src/lib.rs" beforeDir="false" afterPath="$PROJECT_DIR$/restify-openapi/src/lib.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/restify-openapi/src/models/components.rs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/restify-openapi/src/models/info.rs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/restify-openapi/src/models/mod.rs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/restify-openapi/src/models/paths.rs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/restify-openapi/src/models/reference_or.rs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/restify-openapi/src/models/security.rs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/restify-openapi/src/models/server.rs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/restify-openapi/src/models/tag.rs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/restify-openapi/src/path_item_definition.rs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/restify-openapi/src/simple.rs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/restify/Cargo.toml" beforeDir="false" afterPath="$PROJECT_DIR$/restify/Cargo.toml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/restify/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/restify/README.md" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MacroExpansionManager">
+    <option name="directoryName" value="dx3eipu0" />
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 6
+}]]></component>
+  <component name="ProjectId" id="2kYAfwuzxqd8JBwrzXwMAIMqW4T" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.rust.reset.selective.auto.import": "true",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "H:/apistos",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "org.rust.cargo.project.model.PROJECT_DISCOVERY": "true",
+    "org.rust.first.attach.projects": "true"
+  }
+}]]></component>
+  <component name="RunManager" selected="Cargo.Test restify">
+    <configuration name="Run todo" type="CargoCommandRunConfiguration" factoryName="Cargo Command">
+      <option name="command" value="run --package todo --bin todo" />
+      <option name="workingDirectory" value="file://$PROJECT_DIR$" />
+      <envs />
+      <option name="emulateTerminal" value="true" />
+      <option name="channel" value="DEFAULT" />
+      <option name="requiredFeatures" value="true" />
+      <option name="allFeatures" value="false" />
+      <option name="withSudo" value="false" />
+      <option name="buildTarget" value="REMOTE" />
+      <option name="backtrace" value="SHORT" />
+      <option name="isRedirectInput" value="false" />
+      <option name="redirectInputPath" value="" />
+      <method v="2">
+        <option name="CARGO.BUILD_TASK_PROVIDER" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Test restify" type="CargoCommandRunConfiguration" factoryName="Cargo Command">
+      <option name="command" value="test --workspace" />
+      <option name="workingDirectory" value="file://$PROJECT_DIR$" />
+      <envs />
+      <option name="emulateTerminal" value="true" />
+      <option name="channel" value="DEFAULT" />
+      <option name="requiredFeatures" value="true" />
+      <option name="allFeatures" value="false" />
+      <option name="withSudo" value="false" />
+      <option name="buildTarget" value="REMOTE" />
+      <option name="backtrace" value="SHORT" />
+      <option name="isRedirectInput" value="false" />
+      <option name="redirectInputPath" value="" />
+      <method v="2">
+        <option name="CARGO.BUILD_TASK_PROVIDER" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="RustProjectSettings">
+    <option name="toolchainHomeDirectory" value="$USER_HOME$/.cargo/bin" />
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="030470ee-8530-4f2c-a247-d60ac4c4b9a9" name="Changes" comment="" />
+      <created>1723450243276</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1723450243276</updated>
+      <workItem from="1723450244437" duration="2676000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>
