@@ -4,7 +4,7 @@ use syn::{
   parse::{Parse, ParseStream},
   parse2, parse_str,
   punctuated::Punctuated,
-  Attribute, Error, Expr, ImplItem, ItemImpl, LitStr, Meta, Token, Type,
+  Attribute, Error, Expr, Generics, ImplItem, ItemImpl, LitStr, Meta, Token, Type,
 };
 
 use crate::{config::CONFIG, route::Route};
@@ -17,6 +17,7 @@ struct Controller {
   type_: Type,
   routes: Vec<Route>,
   items: Vec<ImplItem>,
+  generics: Generics,
 }
 
 impl Controller {
@@ -25,6 +26,7 @@ impl Controller {
       attrs,
       mut items,
       self_ty,
+      generics,
       ..
     }: ItemImpl,
     args: Args,
@@ -66,6 +68,7 @@ impl Controller {
       items,
       state,
       wrappers,
+      generics,
       type_: *self_ty,
     })
   }
@@ -86,11 +89,14 @@ impl ToTokens for Controller {
       wrappers,
       state,
       path,
+      generics,
     } = self;
+
+    let (impl_generics, ty_generics, where_clause) = generics.split_for_impl();
 
     let controller = if cfg!(feature = "axum") {
       quote! {
-        impl ::restify::Controller for #type_ {
+        impl #impl_generics ::restify::Controller for #type_ #ty_generics #where_clause {
           type Context = ();
           type Return = ::axum::Router<#state>;
 

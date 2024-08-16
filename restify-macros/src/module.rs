@@ -73,6 +73,8 @@ pub fn expand(item: DeriveInput) -> Result<TokenStream, syn::Error> {
     }
   }
 
+  let (impl_generics, ty_generics, where_clause) = item.generics.split_for_impl();
+
   let controller_context = if cfg!(feature = "axum") {
     quote!(())
   } else {
@@ -91,7 +93,7 @@ pub fn expand(item: DeriveInput) -> Result<TokenStream, syn::Error> {
   };
 
   let module = quote! {
-    impl Module for #ident {
+    impl #impl_generics Module for #ident #ty_generics #where_clause {
       type Context = #module_context;
       type ControllerContext = #controller_context;
       type ControllerReturn = #return_content;
